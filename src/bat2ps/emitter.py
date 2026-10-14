@@ -104,8 +104,8 @@ def _join_ps(parts: list[str]) -> str:
 
 
 # ------------------------------------------------------- var expansion
-_ENV_RE = re.compile(r"%([A-Za-z_][A-Za-z0-9_]*)%")
-_DELAYED_RE = re.compile(r"!([A-Za-z_][A-Za-z0-9_]*)!")
+_ENV_RE = re.compile(r"%([^\W\d]\w*)%")
+_DELAYED_RE = re.compile(r"!([^\W\d!]\w*)!")
 _ARG_RE = re.compile(r"%~([fdpnxsat$]*)([0-9*])", re.IGNORECASE)
 _PLAIN_ARG_RE = re.compile(r"%([0-9*])")
 _TILDE_ENV_RE = re.compile(r"%~([fdpnxsat$]*)([A-Za-z_][A-Za-z0-9_]*)%", re.IGNORECASE)
@@ -1020,7 +1020,7 @@ class _Emitter:
             # skip if already part of $env: or $__ / $LASTEXITCODE etc.
             return f"([int]$env:{w})"
 
-        e = re.sub(r"(?<![\w$:>])([A-Za-z_][A-Za-z0-9_]*)(?![\w:])", word_sub, e)
+        e = re.sub(r"(?<![\w$:>])([^\W\d]\w*)(?![\w:])", word_sub, e)
         return e
 
     def _emit_set_display(self, st: SetDisplay, ctx: _Ctx, ind: str) -> list[str]:

@@ -174,7 +174,9 @@ def verify_source(bat_path: Path, workdir: Path | None = None) -> CaseResult:
     cwd = workdir or bat_path.parent
     tmp_ps1 = (cwd / (bat_path.stem + ".__bat2ps_verify.ps1")).resolve()
     try:
-        tmp_ps1.write_text(ps1, encoding="utf-8")
+        # BOM: Windows PowerShell 5.1 reads BOM-less scripts using the system
+        # ANSI codepage, which mangles non-ASCII. Always emit UTF-8 + BOM.
+        tmp_ps1.write_text(ps1, encoding="utf-8-sig")
         try:
             bout, berr, bcode = run_bat(bat_path.resolve(), cwd)
         except subprocess.TimeoutExpired:

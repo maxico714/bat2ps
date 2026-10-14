@@ -28,7 +28,8 @@ def _cmd_convert(args: argparse.Namespace) -> int:
         if args.allow_partial:
             stub = partial_stub(src.name, e.rule_id, e.message, e.lineno)
             if args.output:
-                Path(args.output).write_text(stub, encoding="utf-8")
+                # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
+                Path(args.output).write_text(stub, encoding="utf-8-sig")
             else:
                 sys.stdout.write(stub)
             print(f"warning: partial conversion: {e}", file=sys.stderr)
@@ -36,7 +37,8 @@ def _cmd_convert(args: argparse.Namespace) -> int:
         print(str(e), file=sys.stderr)
         return 2
     if args.output:
-        Path(args.output).write_text(ps1, encoding="utf-8")
+        # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
+        Path(args.output).write_text(ps1, encoding="utf-8-sig")
     else:
         sys.stdout.write(ps1)
     return 0
