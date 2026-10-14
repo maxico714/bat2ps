@@ -43,7 +43,7 @@ Expected (measured 2026-10-14 on Windows PowerShell 5.1, Python 3.12):
 
 ```text
 deploy.bat: stdout=pass exit=pass (cmd=0 ps=0)
-harness: 41/41 passed (0 failed, 0 skipped)
+harness: 42/42 passed (0 failed, 0 skipped)
 harness: 22/22 passed (0 failed, 0 skipped)
 ```
 
@@ -101,7 +101,7 @@ bat2ps verify examples/deploy.bat
 
 ## Corpus
 
-- `corpus/npocmaka-subset/` (41 scripts, npocmaka-style topic demos,
+- `corpus/npocmaka-subset/` (42 scripts, npocmaka-style topic demos,
   hand-written for this repo, MIT).
 - `corpus/community-subset/` (22 realistic ops scripts: deploy, cleanup,
   log rotation, delayed expansion, dispatch).
