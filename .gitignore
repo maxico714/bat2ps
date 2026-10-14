@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+# Type checkers
+.mypy_cache/
+.ruff_cache/
+# Agent working state (never published)
+.agent/
+# Build protocol (operator-local, not part of the product)
+AGENTS.md
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+# Local reports
+report.json
+report.md

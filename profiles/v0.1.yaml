@@ -1,0 +1,45 @@
+# Batch profile v0.1 (frozen 2026-10-14) — the only input bat2ps converts.
+#
+# Anything not listed here fails conversion LOUDLY with a stable BPxxx id
+# (convert exit code 2). IDs are never renumbered; only added.
+version: v0.1
+
+in_profile:
+  - labels + goto/call :label (incl. goto :eof, exit /b); call-targets must be goto-free
+  - if/else: errorlevel (>= semantics), defined, exist, string ==, numeric equ/neu/lss/leq/gtr/geq, /i, not
+  - for %%x in (...) (incl. quoted items, wildcards); for /f (tokens/delims/skip/eol/usebackq, file/string/command); for /l
+  - echo (verbatim message incl. blanks, off/on toggles); rem and :: comments
+  - set VAR=val (verbatim trailing blanks), set "VAR=val", set VAR= (clear), set /a (silent, truncating /), set display
+  - setlocal/endlocal (env-scope stack; setlocal zeroes ERRORLEVEL like cmd)
+  - cd/chdir/pushd/popd, shift, title
+  - chains (&& / || / &) emitted natively; pipes and complex redirects run under cmd /c
+  - "%VAR%", "!VAR!" (delayed iff the script uses setlocal+delayed), %~dp0-family, %0..%9, %*, %ERRORLEVEL%, %CD%
+  - external commands (dir/copy/move/del/type/...) via cmd /c passthrough
+
+out_of_profile:
+  BP001: choice (interactive)
+  BP002: assoc/ftype
+  BP003: wmic
+  BP004: for /r (recursive)
+  BP005: for /d (directories)
+  BP006: start (async launch)
+  BP008: set /p (interactive prompt)
+  BP009: chcp other than 65001
+  BP010: raw binary I/O
+  BP011: call-target label containing goto
+  BP012: unsupported %~ / %%~ modifier
+  BP020: if cmdextversion
+  BP021: /? help output
+  BP022: break
+  BP023: block-level chaining/redirection or control-flow inside chained lines
+  BP000: malformed statement (parse error)
+
+known_differences:
+  # Verified cmd behaviours we match, plus honest limits. See docs/parity-contract.md.
+  - echo preserves ERRORLEVEL; set/set-a/rem/title/shift preserve it too
+  - set /a is silent in batch files; / truncates toward zero
+  - "%ERRORLEVEL%" is live; "!VAR!" expands only when the script enables delayed expansion
+  - "%~nx0"-style name derivatives need same-stem filenames (harness temp files differ)
+  - immediate-vs-delayed %VAR% inside blocks is treated as delayed (live env)
+  - "%DATE%/%TIME%/%RANDOM%" are nondeterministic and excluded from parity claims
+  - non-ASCII redirect targets/contents assume chcp 65001 + en-US (locale trap documented)
