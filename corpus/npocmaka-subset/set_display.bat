@@ -1,0 +1,4 @@
+@echo off
+set BAT2PS_DEMO_ONE=111
+set BAT2PS_DEMO_TWO=222
+set BAT2PS_DEMO
