@@ -1,0 +1,18 @@
+name: Feature request
+description: Propose a profile addition or tool feature
+labels: [enhancement]
+body:
+  - type: textarea
+    id: pain
+    attributes:
+      label: What batch pattern do you need, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: profile
+    attributes:
+      label: Proposed profile rule (or BPxxx it extends)
+  - type: textarea
+    id: parity
+    attributes:
+      label: How would the harness prove it?
