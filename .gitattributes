@@ -1,0 +1,4 @@
+# Line-ending policy: cmd.exe reads batch files reliably only as CRLF
+# (LF-only UTF-8 files are mis-sniffed under chcp 65001). Force CRLF for
+# .bat on every platform; everything else defaults.
+*.bat text eol=crlf
