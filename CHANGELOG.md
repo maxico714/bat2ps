@@ -15,7 +15,7 @@ follows [SemVer](https://semver.org/).
   redirections; external commands via `cmd /d /c`.
 - Differential parity harness (`bat2ps harness`) with JSON + Markdown
   reports; `convert`, `verify`, `doctor` CLI (exit codes 0/1/2/3).
-- Corpus: 41 npocmaka-style + 22 community-style fixtures, all
+- Corpus: 42 npocmaka-style + 22 community-style fixtures, all
   parity-passing; e2e journey; adversarial suite (unicode, 10k-line,
   malformed, exit codes); `--allow-partial` fail-loud stubs.
 - Docs: README quickstart, parity contract, product/technical/roadmap/
@@ -23,6 +23,6 @@ follows [SemVer](https://semver.org/).
 
 ### Verified
 
-- `pytest` 196 tests green; harness 41/41 + 22/22; `ruff check`,
+- `pytest` 196 tests green; harness 42/42 + 22/22; `ruff check`,
   `ruff format --check`, `mypy --strict` clean; `bat2ps doctor` green;
   mutation probe (`-ge` → `-eq`) killed at L1 and L2.

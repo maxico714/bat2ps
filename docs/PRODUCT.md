@@ -1,6 +1,6 @@
 # PRODUCT — bat2ps
 
-Status: SCAFFOLD (not built). Date: 2026-10-12.
+Status: Built and verified v0.1.0. Date: 2026-10-23 (product definition 2026-10-12).
 
 ## Problem
 

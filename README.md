@@ -39,7 +39,7 @@ bat2ps harness corpus/npocmaka-subset --min-pass 30
 bat2ps harness corpus/community-subset --min-pass 20
 ```
 
-Expected (measured 2026-10-14 on Windows PowerShell 5.1, Python 3.12):
+Expected (measured 2026-10-23 on Windows PowerShell 5.1, Python 3.12):
 
 ```text
 deploy.bat: stdout=pass exit=pass (cmd=0 ps=0)
@@ -150,7 +150,7 @@ v1.0 encoding matrix + GitHub Action + coverage report. See
 | area | level | evidence |
 |---|---|---|
 | lexer/parser/emitter units | L1 | `pytest tests/unit` (165 tests) |
-| corpus differential | L2 | `bat2ps harness` 41/41 + 22/22 |
+| corpus differential | L2 | `bat2ps harness` 42/42 + 22/22 |
 | e2e journey + escape hatch | L3 | `pytest tests/e2e` |
 | clean env | L4 | fresh-clone install + `pytest` + `doctor` |
 | adversarial | L5 | `pytest tests/adversarial` (unicode, 10k-line, malformed) |

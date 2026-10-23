@@ -1,6 +1,6 @@
 # TECHNICAL — bat2ps
 
-Status: SCAFFOLD (not built). Date: 2026-10-12. Stack rationale: Python 3.12 stdlib-first (host-verified); PowerShell oracle = system pwsh/powershell.exe.
+Status: Built and verified v0.1.0. Date: 2026-10-23 (design 2026-10-12). Stack rationale: Python 3.12 stdlib-first (host-verified); PowerShell oracle = system pwsh/powershell.exe.
 
 ## Architecture (C4-lite)
 

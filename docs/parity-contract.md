@@ -31,7 +31,7 @@ environment below:
   "tool": "bat2ps 0.1.0",
   "profile": "v0.1",
   "corpus": "<dir>",
-  "total": 63, "passed": 63, "failed": 0, "skipped": 0,
+  "total": 64, "passed": 64, "failed": 0, "skipped": 0,
   "cases": [
     {"file": "echo_hello.bat", "profile": "v0.1",
      "supported": [], "unsupported": [],

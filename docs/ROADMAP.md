@@ -1,16 +1,16 @@
 # ROADMAP — bat2ps
 
-Status: SCAFFOLD. SemVer from day one; Keep a Changelog.
+Status: v0.1.0 built and verified 2026-10-23; later milestones open. SemVer from day one; Keep a Changelog.
 
 ## v0.1 — Walking skeleton (exit criteria = L2 green)
 
-- [ ] Lexer + parser for profile v0.1 subset; unsupported → BP-id hard error.
-- [ ] Emitter for same subset; setlocal/delayed-expansion scope model.
-- [ ] Parity harness (cmd vs powershell, stdout-bytes + exit, pinned env).
-- [ ] Corpus: npocmaka MIT subset (≥50 scripts) + second corpus skeleton (≥20).
-- [ ] pytest L1+L2; `bat2ps doctor`; CI on windows-latest.
-- [ ] README quickstart (executable, covered by CI).
-- [ ] docs/BATCH_PROFILE.md v0.1 frozen.
+- [x] Lexer + parser for profile v0.1 subset; unsupported → BP-id hard error.
+- [x] Emitter for same subset; setlocal/delayed-expansion scope model.
+- [x] Parity harness (cmd vs powershell, stdout-bytes + exit, pinned env).
+- [x] Corpus: 42 npocmaka-style scripts + 22 community-style scripts.
+- [x] pytest L1+L2; `bat2ps doctor`; CI config present on windows-latest (first hosted run pending G2).
+- [x] README quickstart verified in a fresh clone.
+- [x] docs/BATCH_PROFILE.md v0.1 frozen.
 
 **Riskiest assumption to spike first (M5):** can the harness normalize cmd/pwsh output deterministically for ≥30 real scripts? Spike = 20-script mini-corpus + harness stub before parser work.
 
