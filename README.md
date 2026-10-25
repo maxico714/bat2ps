@@ -21,7 +21,7 @@ Requires Windows with `cmd.exe` + Windows PowerShell 5.1 (or pwsh) and
 Python 3.10+.
 
 ```powershell
-git clone https://github.com/example/bat2ps.git
+git clone https://github.com/maxico714/bat2ps.git
 cd bat2ps
 pip install -e .
 bat2ps doctor
