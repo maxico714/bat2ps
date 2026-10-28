@@ -43,6 +43,44 @@ def test_convert_missing_file_exit_3():
     assert cli_main(["convert", "no-such-file.bat"]) == 3
 
 
+def test_convert_unsupported_profile_exit_2(tmp_path):
+    bat = tmp_path / "ok.bat"
+    bat.write_text("@echo off\necho hi\n", encoding="utf-8")
+    assert cli_main(["convert", str(bat), "--profile", "v9.9"]) == 2
+
+
+def test_convert_invalid_utf8_exit_3(tmp_path):
+    bat = tmp_path / "cp1252.bat"
+    bat.write_bytes(b"@echo off\necho caf\xe9\n")
+    assert cli_main(["convert", str(bat)]) == 3
+
+
+def test_convert_unwritable_output_exit_3(tmp_path):
+    bat = tmp_path / "ok.bat"
+    bat.write_text("@echo off\necho hi\n", encoding="utf-8")
+    out = tmp_path / "missing" / "ok.ps1"
+    assert cli_main(["convert", str(bat), "-o", str(out)]) == 3
+
+
+def test_convert_partial_unwritable_output_exit_3(tmp_path):
+    bat = tmp_path / "bad.bat"
+    bat.write_text("wmic os get caption\n", encoding="utf-8")
+    out = tmp_path / "missing" / "bad.ps1"
+    assert cli_main(["convert", str(bat), "-o", str(out), "--allow-partial"]) == 3
+
+
+def test_verify_missing_against_exit_3(tmp_path):
+    bat = tmp_path / "ok.bat"
+    bat.write_text("@echo off\necho hi\n", encoding="utf-8")
+    assert cli_main(["verify", str(bat), "--against", str(tmp_path / "missing.ps1")]) == 3
+
+
+def test_harness_unwritable_json_exit_3(tmp_path):
+    (tmp_path / "unsupported.bat").write_text("choice /c yn\n", encoding="utf-8")
+    out = tmp_path / "missing" / "report.json"
+    assert cli_main(["harness", str(tmp_path), "--json", str(out), "--quiet"]) == 3
+
+
 def test_harness_missing_dir_exit_3():
     assert cli_main(["harness", "no-such-dir"]) == 3
 

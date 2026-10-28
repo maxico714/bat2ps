@@ -3,7 +3,7 @@
 Setup in under 5 minutes (Windows, Python 3.10+):
 
 ```powershell
-git clone https://github.com/example/bat2ps.git
+git clone https://github.com/maxico714/bat2ps.git
 cd bat2ps
 pip install -e .
 pip install pytest ruff mypy

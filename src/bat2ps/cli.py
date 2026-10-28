@@ -13,6 +13,12 @@ from .errors import Bat2PsError
 def _cmd_convert(args: argparse.Namespace) -> int:
     from .emitter import convert, partial_stub
 
+    if args.profile != __profile_version__:
+        print(
+            f"error: unsupported profile {args.profile!r}; only {__profile_version__} is available",
+            file=sys.stderr,
+        )
+        return 2
     src = Path(args.bat)
     if not src.is_file():
         print(f"error: file not found: {src}", file=sys.stderr)
@@ -22,25 +28,41 @@ def _cmd_convert(args: argparse.Namespace) -> int:
     except OSError as e:
         print(f"error: cannot read {src}: {e}", file=sys.stderr)
         return 3
+    except UnicodeDecodeError as e:
+        print(
+            f"error: {src} is not valid UTF-8 (profile {__profile_version__} requires UTF-8): {e}",
+            file=sys.stderr,
+        )
+        return 3
     try:
         ps1 = convert(text, source_name=src.name)
     except Bat2PsError as e:
         if args.allow_partial:
             stub = partial_stub(src.name, e.rule_id, e.message, e.lineno)
-            if args.output:
-                # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
-                Path(args.output).write_text(stub, encoding="utf-8-sig")
-            else:
-                sys.stdout.write(stub)
+            try:
+                if args.output:
+                    # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
+                    Path(args.output).write_text(stub, encoding="utf-8-sig")
+                else:
+                    sys.stdout.write(stub)
+            except OSError as write_err:
+                print(
+                    f"error: cannot write {args.output or '<stdout>'}: {write_err}", file=sys.stderr
+                )
+                return 3
             print(f"warning: partial conversion: {e}", file=sys.stderr)
             return 0
         print(str(e), file=sys.stderr)
         return 2
-    if args.output:
-        # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
-        Path(args.output).write_text(ps1, encoding="utf-8-sig")
-    else:
-        sys.stdout.write(ps1)
+    try:
+        if args.output:
+            # BOM: Windows PowerShell 5.1 needs it for non-ASCII scripts.
+            Path(args.output).write_text(ps1, encoding="utf-8-sig")
+        else:
+            sys.stdout.write(ps1)
+    except OSError as e:
+        print(f"error: cannot write {args.output or '<stdout>'}: {e}", file=sys.stderr)
+        return 3
     return 0
 
 
@@ -51,7 +73,11 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     if not bat.is_file():
         print(f"error: file not found: {bat}", file=sys.stderr)
         return 3
-    res = verify_pair(bat, Path(args.against)) if args.against else verify_source(bat)
+    against = Path(args.against) if args.against else None
+    if against is not None and not against.is_file():
+        print(f"error: file not found: {against}", file=sys.stderr)
+        return 3
+    res = verify_pair(bat, against) if against else verify_source(bat)
     if res.error and res.parity_stdout == "skip":
         print(res.error, file=sys.stderr)
         return 2 if res.unsupported else 3
@@ -77,7 +103,11 @@ def _cmd_harness(args: argparse.Namespace) -> int:
         print(f"error: corpus dir not found: {corpus}", file=sys.stderr)
         return 3
     report = run_corpus(corpus, Path(args.workdir) if args.workdir else None)
-    md = write_report(report, Path(args.json) if args.json else None)
+    try:
+        md = write_report(report, Path(args.json) if args.json else None)
+    except OSError as e:
+        print(f"error: cannot write report {args.json}: {e}", file=sys.stderr)
+        return 3
     if not args.quiet:
         print(md)
     print(

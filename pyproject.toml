@@ -23,9 +23,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/example/bat2ps"
-Repository = "https://github.com/example/bat2ps"
-Issues = "https://github.com/example/bat2ps/issues"
+Homepage = "https://github.com/maxico714/bat2ps"
+Repository = "https://github.com/maxico714/bat2ps"
+Issues = "https://github.com/maxico714/bat2ps/issues"
 
 [project.scripts]
 bat2ps = "bat2ps.cli:main"

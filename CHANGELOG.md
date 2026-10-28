@@ -21,8 +21,16 @@ follows [SemVer](https://semver.org/).
 - Docs: README quickstart, parity contract, product/technical/roadmap/
   evidence notes; packaging (CI, CoC, security, changelog, notices).
 
+### Fixed
+
+- `convert --profile` rejects unsupported profile versions (exit 2) instead of
+  silently using v0.1.
+- Unreadable UTF-8 input, unwritable `-o`/`--json` paths, and a missing
+  `verify --against` file exit 3 with a clean message instead of a traceback.
+- Project metadata URLs point at the real repository.
+
 ### Verified
 
-- `pytest` 196 tests green; harness 42/42 + 22/22; `ruff check`,
+- `pytest` 202 tests green; harness 42/42 + 22/22; `ruff check`,
   `ruff format --check`, `mypy --strict` clean; `bat2ps doctor` green;
   mutation probe (`-ge` → `-eq`) killed at L1 and L2.
